@@ -1,0 +1,40 @@
+---
+- name: Environment
+  hosts: dev
+  become: true
+  tasks:
+    ## Setting os time in asia/seoul
+    - name: Set OS Time
+      timezone:
+        name: Asia/Seoul
+
+    ## Install Python3
+    - name: Install Python3
+      apt:
+        name: python3
+        state: present
+
+    - name: Install software requiredments
+      apt:
+        state: present
+        name:
+          - telnet
+
+    ## Install nodejs 16
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+        update_cache: yes
+        force_apt_get: yes
+        install_recommends: no
+      vars:
+        nodejs_apt_packages:
+          - nodejs=16.*
+          - npm
+
+    ## Install Nginx
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
